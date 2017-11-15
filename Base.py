@@ -50,33 +50,13 @@ def add_user():
 	n_email = raw_input("Enter your email: ")
 	
 	userFile = open("Data/Users.json", "r")
-	#userData = json.load(userFile)
-	#userData = userFile.read().decode("utf-8")
 	jsonData = json.dumps(userFile.read(), ensure_ascii=False)
 	userDataInitial = json.loads(jsonData)
-	
-	#userData = dict(userDataInitial)
-	#print userData
-	
-	#userData[uidStr] = json.dumps({"ssn": "%s" % (n_ssn), "name": "%s" % (n_name), "email": "%s" % (n_email)})
 	
 	userDataInitial = userDataInitial.encode("utf-8")
 	userDataStr = userDataInitial[:-1].replace(' u\'', ' "').replace('{u\'', '{"').replace('\'', '"').replace('"{', '{').replace('}"', '}') + ', "%s": {"ssn": "%s", "name": "%s", "email": "%s"}}' % (uidStr, n_ssn, n_name, n_email)
 	
-	#print "User data str: " + userDataStr
-	
-	# print userData
-	
-	# print json.JSONEncoder().encode(str(userData))
-	
-	#n_data = str(userData)[1:-1]
-	#json_string = "{'" + uidStr + "': {'ssn': '" + n_ssn + "', 'name': '" + n_name + "', 'email': '" + n_email + "'}}"
-	#json_string = "{%s, '%s': {'ssn': '%s', 'name': '%s', 'email': '%s'}}" % (n_data, uidStr, n_ssn, n_name, n_email)
-	
 	userFile = open("Data/Users.json", "w")
-	#print json.dumps(json_string)
-	#print json.dumps({uidStr: {'ssn': n_ssn, 'name': n_name, 'email': n_email}})
-	
 	userFile.write(userDataStr)
 
 # Hook the SIGINT
