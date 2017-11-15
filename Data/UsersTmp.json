@@ -1,0 +1,12 @@
+{
+	"1,2,3,4": {
+		"ssn": "2509972569",
+		"name": "Styrmir Óli Þorsteinsson",
+		"email": "styrmir97@gmail.com"
+	},
+	"8,155,28,112": {
+		"ssn": "2809983979",
+		"name": "Bjarki Fannar Snorrason",
+		"email": "bjarkifannar@gmail.com"
+	}
+}
