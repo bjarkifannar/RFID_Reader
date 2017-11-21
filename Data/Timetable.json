@@ -1,0 +1,32 @@
+{
+	"0": {
+		"0": {"class": "", "group": "", "teacher": "", "starts": "08:10", "ends": "10:15"},
+		"1": {"class": "", "group": "", "teacher": "", "starts": "10:35", "ends": "12:40"},
+		"2": {"class": "KML2UF04AU", "group": "1", "teacher": "AMS", "starts": "13:10", "ends": "15:15"},
+		"3": {"class": "KML2UF04AU", "group": "1", "teacher": "AMS", "starts": "15:30", "ends": "17:35"}
+	},
+	"1": {
+		"0": {"class": "VEF2TÖ05CU", "group": "1", "teacher": "GUS", "starts": "08:10", "ends": "10:15"},
+		"1": {"class": "VEF3B3U", "group": "2", "teacher": "GUS", "starts": "10:35", "ends": "12:40"},
+		"2": {"class": "", "group": "", "teacher": "", "starts": "13:10", "ends": "15:15"},
+		"3": {"class": "", "group": "", "teacher": "", "starts": "15:30", "ends": "17:35"}
+	},
+	"2": {
+		"0": {"class": "", "group": "", "teacher": "", "starts": "08:10", "ends": "10:15"},
+		"1": {"class": "", "group": "", "teacher": "", "starts": "10:35", "ends": "12:40"},
+		"2": {"class": "", "group": "", "teacher": "", "starts": "13:10", "ends": "15:15"},
+		"3": {"class": "", "group": "", "teacher": "", "starts": "15:30", "ends": "17:35"}
+	},
+	"3": {
+		"0": {"class": "", "group": "", "teacher": "", "starts": "08:10", "ends": "10:15"},
+		"1": {"class": "", "group": "", "teacher": "", "starts": "10:35", "ends": "12:40"},
+		"2": {"class": "", "group": "", "teacher": "", "starts": "13:10", "ends": "15:15"},
+		"3": {"class": "", "group": "", "teacher": "", "starts": "15:30", "ends": "17:35"}
+	},
+	"4": {
+		"0": {"class": "", "group": "", "teacher": "", "starts": "08:10", "ends": "10:15"},
+		"1": {"class": "", "group": "", "teacher": "", "starts": "10:35", "ends": "12:40"},
+		"2": {"class": "", "group": "", "teacher": "", "starts": "13:10", "ends": "15:15"},
+		"3": {"class": "", "group": "", "teacher": "", "starts": "15:30", "ends": "17:35"}
+	}
+}

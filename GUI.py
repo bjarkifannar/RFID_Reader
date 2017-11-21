@@ -10,6 +10,7 @@ import os
 import io
 import codecs
 from appJar import gui
+from collections import Counter
 
 app = gui("RFID Reader")
 
@@ -44,7 +45,7 @@ def get_user():
 	except Exception, ex:
 		message = 'User not found'
 	
-	app.setMessage('message', message)
+	app.setLabel('msg', message)
 
 def add_user():
 	global uid
@@ -104,14 +105,82 @@ def start_loop(action):
 			time.sleep(5)
 
 def init_app():
-		app.addEmptyMessage('message', 0, 0)
+	draw_timetable()
+	
+	app.startLabelFrame("Message", 3, 0)
+	
+	app.setSticky("news")
+	
+	app.addEmptyLabel('msg')
+	app.setLabelWidths('msg', 700)
+	
+	app.stopLabelFrame()
+	
+	start_loop(0)
+
+def reset_labels():
+	app.clearLabel('msg')
+
+def draw_timetable():
+	try:
+		timetableFile = open("Data/Timetable.json", "r")
+		data = json.load(timetableFile)
 		
-		start_loop(0)
+		#print data["1"]["0"]["class"]
+		app.startLabelFrame("Timetable", 0, 0, 1, 3)
+		app.setLabelFrameBg("Timetable", "white")
+		app.setSticky("news")
+		
+		for i in range(0, 5):
+			data2 = data[str(i)]
+			if not data2 == "{}":
+				for d2 in data2:
+					dat = data2[d2]
+					starts = int(dat["starts"][:-3])
+					string = dat["starts"] + " - " + dat["ends"] + "\n"
+					noClass = True
+					
+					if dat["class"] == "":
+						string = "Enginn tími"
+					else:
+						noClass = False
+						string = dat["class"] + "-" + dat["group"] + "\n" + dat["teacher"]
+					
+					r = 0
+					
+					if starts == 8:
+						r = 0
+					elif starts == 10:
+						r = 1
+					elif starts == 13:
+						r = 2
+					elif starts == 15:
+						r = 3
+					
+					lfTitle = "lf_" + str(i) + "_" + str(r)
+					lTitle = "l_" + str(i) + "_" + str(r)
+					
+					app.startLabelFrame(lfTitle, r, i)
+					app.setLabelFrameTitle(lfTitle, dat["starts"] + " - " + dat["ends"])
+					
+					if noClass:
+						app.setLabelFrameBg(lfTitle, "green")
+					else:
+						app.setLabelFrameBg(lfTitle, "yellow")
+					
+					app.addLabel(lTitle, string, r, i)
+					app.stopLabelFrame()
+		
+		app.stopLabelFrame()
+			#print str(i) + ": "
+			#print data[str(i)]
+			#print "\n"
+	except Exception, ex:
+		print "ERROR!"
+		print ex
+	
 
-def reset_lasbels():
-	app.clearMessage('message')
-
+app.setGeometry("800x600")
 app.setStretch("both")
 app.thread(init_app)
-app.setGeometry("800x600")
 app.go()
