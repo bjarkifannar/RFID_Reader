@@ -10,13 +10,15 @@ import os
 import io
 import codecs
 from appJar import gui
-from collections import Counter
 
 app = gui("RFID Reader")
 
 continue_reading = True
 uid = 0
 uidStr = ""
+start_times = ("08:00", "10:25", "13:00", "15:20")
+end_times = ("10:15", "12:40", "15:15", "17:35")
+user_ssn = ""
 
 # Capture SIGINT for cleanup when the script is aborted
 def end_read(signal,frame):
@@ -30,6 +32,7 @@ def get_user():
 	global uid
 	global uidStr
 	global app
+	global user_ssn
 	
 	print uidStr
 	
@@ -41,7 +44,10 @@ def get_user():
 		
 		data = userData[uidStr]
 		
+		user_ssn = data["ssn"]
 		message = message + data['name'] + '\n' + data['email'] + '\n' + data['ssn']
+		
+		attendance()
 	except Exception, ex:
 		message = 'User not found'
 	
@@ -60,7 +66,7 @@ def add_user():
 	userDataInitial = json.loads(jsonData)
 	
 	userDataInitial = userDataInitial.encode("utf-8")
-	userDataStr = userDataInitial[:-1].replace(' u\'', ' "').replace('{u\'', '{"').replace('\'', '"').replace('"{', '{').replace('}"', '}') + ', "%s": {"ssn": "%s", "name": "%s", "email": "%s"}}' % (uidStr, n_ssn, n_name, n_email)
+	userDataStr = fix_json(userDataInitial.rstrip()[:-1]) + ', "%s": {"ssn": "%s", "name": "%s", "email": "%s"}}' % (uidStr, n_ssn, n_name, n_email)
 	
 	userFile = open("Data/Users.json", "w")
 	userFile.write(userDataStr)
@@ -131,7 +137,7 @@ def draw_timetable():
 		app.setLabelFrameBg("Timetable", "white")
 		app.setSticky("news")
 		
-		for i in range(0, 5):
+		for i in range(1, 6):
 			data2 = data[str(i)]
 			if not data2 == "{}":
 				for d2 in data2:
@@ -178,7 +184,54 @@ def draw_timetable():
 	except Exception, ex:
 		print "ERROR!"
 		print ex
-	
+
+def attendance():
+	try:
+		global start_times
+		global end_times
+		global user_ssn
+		
+		timetableFile = open("Data/Timetable.json", "r")
+		AttFile = open("Data/Attendance.json", "r")
+		ttData = json.load(timetableFile)
+		attData = json.load(AttFile)
+		cur_time = time_get()
+		cur_day = cur_time.split(' ')[0]
+		time_h_m = cur_time.split(' ')[1]
+		day_class = ""
+		class_name = ""
+		class_group = ""
+		in_week = ""
+		
+		if time_h_m >= start_times[0] and time_h_m <= end_times[0]:
+			day_class = "0"
+		elif time_h_m >= start_times[1] and time_h_m <= end_times[1]:
+			day_class = "1"
+		elif time_h_m >= start_times[2] and time_h_m <= end_times[2]:
+			day_class = "2"
+		elif time_h_m >= start_times[3] and time_h_m <= end_times[3]:
+			day_class = "3"
+		
+		class_name = ttData[cur_day][day_class]["class"]
+		class_group = ttData[cur_day][day_class]["group"]
+		in_week = ttData[cur_day][day_class]["in_week"]
+		
+		class_n_g = class_name + '-' + class_group
+		
+		attData[class_n_g][in_week][user_ssn.encode("utf-8")] = "m"
+		
+		AttFile = open("Data/Attendance.json", "w")
+		AttFile.write(fix_json(attData))
+	except Exception, ex:
+		print "ERROR!"
+		print ex
+
+def time_get():
+	return time.strftime("%w %H:%M", time.gmtime())
+
+def fix_json(j):
+	j = str(j)
+	return j.replace(' u\'', ' "').replace('{u\'', '{"').replace('\'', '"').replace('"{', '{').replace('}"', '}')
 
 app.setGeometry("800x600")
 app.setStretch("both")
