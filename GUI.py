@@ -72,7 +72,7 @@ def init_app():
 	start_loop(0)
 
 # Sets the width and height of the fram, then is stretchs the fram, start the init_app function on a new thread, starts "app".
-.Globals.app.setGeometry("800x600")
+Globals.app.setGeometry("800x600")
 Globals.app.setStretch("both")
 Globals.app.thread(init_app)
 Globals.app.go()
