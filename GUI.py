@@ -2,11 +2,13 @@
 # -*- coding: utf8 -*-
 
 import HelperFunctions
+import UserFunctions
 
 import RPi.GPIO as GPIO
 import MFRC522
 import signal
 import json
+import time
 import os
 import io
 import codecs
@@ -28,49 +30,6 @@ def end_read(signal,frame):
 	continue_reading = False
 	GPIO.cleanup()
 	app.stop()
-	
-def get_user():
-	global uid
-	global uidStr
-	global app
-	global user_ssn
-	
-	print uidStr
-	
-	message = ''
-	
-	try:
-		userFile = open("Data/Users.json", "r")
-		userData = json.load(userFile)
-		
-		data = userData[uidStr]
-		
-		user_ssn = data["ssn"]
-		message = message + data['name'] + '\n' + data['email'] + '\n' + data['ssn']
-		
-		attendance()
-	except Exception, ex:
-		message = 'User not found'
-	
-	app.setLabel('msg', message)
-
-def add_user():
-	global uid
-	global uidStr
-	
-	n_ssn = raw_input("Enter your ssn (Kennitala): ")
-	n_name = raw_input("Enter your name: ")
-	n_email = raw_input("Enter your email: ")
-	
-	userFile = open("Data/Users.json", "r")
-	jsonData = json.dumps(userFile.read(), ensure_ascii=False)
-	userDataInitial = json.loads(jsonData)
-	
-	userDataInitial = userDataInitial.encode("utf-8")
-	userDataStr = HelperFunctions.fix_json(userDataInitial.rstrip()[:-1]) + ', "%s": {"ssn": "%s", "name": "%s", "email": "%s"}}' % (uidStr, n_ssn, n_name, n_email)
-	
-	userFile = open("Data/Users.json", "w")
-	userFile.write(userDataStr)
 
 # Hook the SIGINT
 signal.signal(signal.SIGINT, end_read)
@@ -97,9 +56,9 @@ def start_loop(action):
 			uidStr = str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
 		
 			if action == 0:
-				get_user()
+				UserFunctions.get_user()
 			elif action == 1:
-				add_user()
+				UserFunctions.add_user()
 			
 			# Select the scanned tag
 			MIFAREReader.MFRC522_SelectTag(uid)
