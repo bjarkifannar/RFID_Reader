@@ -1,11 +1,12 @@
+import Globals
 import io
 import codecs
 
 def get_user():
-	global uid
-	global uidStr
-	global app
-	global user_ssn
+	#global uid
+	#global uidStr
+	#global app
+	#global user_ssn
 	
 	print uidStr
 	
@@ -27,8 +28,8 @@ def get_user():
 	app.setLabel('msg', message)
 
 def add_user():
-	global uid
-	global uidStr
+	#global uid
+	#global uidStr
 	
 	n_ssn = raw_input("Enter your ssn (Kennitala): ")
 	n_name = raw_input("Enter your name: ")

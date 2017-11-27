@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
+import Globals
 import HelperFunctions
 import UserFunctions
 
@@ -14,18 +15,11 @@ import io
 import codecs
 from appJar import gui
 
-app = gui("RFID Reader")
-
-continue_reading = True
-uid = 0
-uidStr = ""
-start_times = ("08:00", "10:25", "13:00", "15:20")
-end_times = ("10:15", "12:40", "15:15", "17:35")
-user_ssn = ""
+Globals.init()
 
 # Capture SIGINT for cleanup when the script is aborted
 def end_read(signal,frame):
-	global continue_reading
+	#global continue_reading
 	print "Ctrl+C captured, ending read."
 	continue_reading = False
 	GPIO.cleanup()
@@ -40,8 +34,8 @@ MIFAREReader = MFRC522.MFRC522()
 def start_loop(action):
 	# This loop keeps checking for chips. If one is near it will get the UID and authenticate
 	while continue_reading:
-		global uid
-		global uidStr
+		#global uid
+		#global uidStr
 
 		reset_labels()
 		
@@ -139,9 +133,9 @@ def draw_timetable():
 
 def attendance():
 	try:
-		global start_times
-		global end_times
-		global user_ssn
+		#global start_times
+		#global end_times
+		#global user_ssn
 		
 		timetableFile = open("Data/Timetable.json", "r")
 		AttFile = open("Data/Attendance.json", "r")
