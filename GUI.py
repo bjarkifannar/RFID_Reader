@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf8 -*-
-
+# Imports 
 import Globals
 import HelperFunctions
 import UserFunctions
@@ -15,6 +13,7 @@ import io
 import codecs
 from appJar import gui
 
+# Initialization of the global veribles
 Globals.init()
 
 # Capture SIGINT for cleanup when the script is aborted
@@ -53,24 +52,27 @@ def start_loop(action):
 			
 			# Select the scanned tag
 			MIFAREReader.MFRC522_SelectTag(Globals.uid)
-			
+			# Sets a timer.
 			time.sleep(5)
 
+# Initializing the "app"
 def init_app():
+	# Uses the helperfunctions to draw the timetable. 
 	HelperFunctions.draw_timetable()
-	
+	# Start the label frame.
 	Globals.app.startLabelFrame("Message", 3, 0)
-	
+	# Sets the label fram sticky, this will make the frame stick to all corners.
 	Globals.app.setSticky("news")
-	
+	# Addes a empty label fram, sets the label fram with the width of 700.
 	Globals.app.addEmptyLabel('msg')
 	Globals.app.setLabelWidths('msg', 700)
-	
+	# Ends the label fram.
 	Globals.app.stopLabelFrame()
-	
+	# Calls the start_loop function.
 	start_loop(0)
 
-Globals.app.setGeometry("800x600")
+# Sets the width and height of the fram, then is stretchs the fram, start the init_app function on a new thread, starts "app".
+.Globals.app.setGeometry("800x600")
 Globals.app.setStretch("both")
 Globals.app.thread(init_app)
 Globals.app.go()
