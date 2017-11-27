@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf8 -*-
+
 from appJar import gui
 # These are all the global variables that we using in the code.
 def init():
