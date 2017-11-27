@@ -82,9 +82,9 @@ def draw_timetable():
 		data = json.load(timetableFile)
 		
 		#print data["1"]["0"]["class"]
-		app.startLabelFrame("Timetable", 0, 0, 1, 3)
-		app.setLabelFrameBg("Timetable", "white")
-		app.setSticky("news")
+		Globals.app.startLabelFrame("Timetable", 0, 0, 1, 3)
+		Globals.app.setLabelFrameBg("Timetable", "white")
+		Globals.app.setSticky("news")
 		
 		for i in range(1, 6):
 			data2 = data[str(i)]
@@ -115,18 +115,18 @@ def draw_timetable():
 					lfTitle = "lf_" + str(i) + "_" + str(r)
 					lTitle = "l_" + str(i) + "_" + str(r)
 					
-					app.startLabelFrame(lfTitle, r, i)
-					app.setLabelFrameTitle(lfTitle, dat["starts"] + " - " + dat["ends"])
+					Globals.app.startLabelFrame(lfTitle, r, i)
+					Globals.app.setLabelFrameTitle(lfTitle, dat["starts"] + " - " + dat["ends"])
 					
 					if noClass:
-						app.setLabelFrameBg(lfTitle, "green")
+						Globals.app.setLabelFrameBg(lfTitle, "green")
 					else:
-						app.setLabelFrameBg(lfTitle, "yellow")
+						Globals.app.setLabelFrameBg(lfTitle, "yellow")
 					
-					app.addLabel(lTitle, string, r, i)
-					app.stopLabelFrame()
+					Globals.app.addLabel(lTitle, string, r, i)
+					Globals.app.stopLabelFrame()
 		
-		app.stopLabelFrame()
+		Globals.app.stopLabelFrame()
 	except Exception, ex:
 		print "ERROR!"
 		print ex
