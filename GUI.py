@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
+import HelperFunctions
+
 import RPi.GPIO as GPIO
 import MFRC522
 import signal
-import time
 import json
 import os
 import io
@@ -66,7 +67,7 @@ def add_user():
 	userDataInitial = json.loads(jsonData)
 	
 	userDataInitial = userDataInitial.encode("utf-8")
-	userDataStr = fix_json(userDataInitial.rstrip()[:-1]) + ', "%s": {"ssn": "%s", "name": "%s", "email": "%s"}}' % (uidStr, n_ssn, n_name, n_email)
+	userDataStr = HelperFunctions.fix_json(userDataInitial.rstrip()[:-1]) + ', "%s": {"ssn": "%s", "name": "%s", "email": "%s"}}' % (uidStr, n_ssn, n_name, n_email)
 	
 	userFile = open("Data/Users.json", "w")
 	userFile.write(userDataStr)
@@ -88,11 +89,6 @@ def start_loop(action):
 		# Scan for cards    
 		(status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
 
-		# If a card is found
-		#if status == MIFAREReader.MI_OK:
-			#app.setLabel('id_detected', 'ID detected')
-			#print "ID detected"
-		
 		# Get the UID of the card
 		(status, uid) = MIFAREReader.MFRC522_Anticoll()
 
@@ -178,9 +174,6 @@ def draw_timetable():
 					app.stopLabelFrame()
 		
 		app.stopLabelFrame()
-			#print str(i) + ": "
-			#print data[str(i)]
-			#print "\n"
 	except Exception, ex:
 		print "ERROR!"
 		print ex
@@ -195,7 +188,7 @@ def attendance():
 		AttFile = open("Data/Attendance.json", "r")
 		ttData = json.load(timetableFile)
 		attData = json.load(AttFile)
-		cur_time = time_get()
+		cur_time = HelperFunctions.time_get()
 		cur_day = cur_time.split(' ')[0]
 		time_h_m = cur_time.split(' ')[1]
 		day_class = ""
@@ -221,17 +214,10 @@ def attendance():
 		attData[class_n_g][in_week][user_ssn.encode("utf-8")] = "m"
 		
 		AttFile = open("Data/Attendance.json", "w")
-		AttFile.write(fix_json(attData))
+		AttFile.write(HelperFunctions.fix_json(attData))
 	except Exception, ex:
 		print "ERROR!"
 		print ex
-
-def time_get():
-	return time.strftime("%w %H:%M", time.gmtime())
-
-def fix_json(j):
-	j = str(j)
-	return j.replace(' u\'', ' "').replace('{u\'', '{"').replace('\'', '"').replace('"{', '{').replace('}"', '}')
 
 app.setGeometry("800x600")
 app.setStretch("both")
