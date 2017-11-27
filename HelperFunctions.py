@@ -10,6 +10,9 @@ def fix_json(j):
 	j = str(j)
 	return j.replace(' u\'', ' "').replace('{u\'', '{"').replace('\'', '"').replace('"{', '{').replace('}"', '}')
 
+def reset_labels():
+	Globals.app.clearLabel('msg')
+
 def attendance():
 	try:
 		timetableFile = open("Data/Timetable.json", "r")
@@ -45,6 +48,60 @@ def attendance():
 			
 			AttFile = open("Data/Attendance.json", "w")
 			AttFile.write(fix_json(attData))
+	except Exception, ex:
+		print "ERROR!"
+		print ex
+
+def draw_timetable():
+	try:
+		timetableFile = open("Data/Timetable.json", "r")
+		data = json.load(timetableFile)
+		
+		Globals.app.startLabelFrame("Timetable", 0, 0, 1, 3)
+		Globals.app.setLabelFrameBg("Timetable", "white")
+		Globals.app.setSticky("news")
+		
+		for i in range(1, 6):
+			data2 = data[str(i)]
+			if not data2 == "{}":
+				for d2 in data2:
+					dat = data2[d2]
+					starts = int(dat["starts"][:-3])
+					string = dat["starts"] + " - " + dat["ends"] + "\n"
+					noClass = True
+					
+					if dat["class"] == "":
+						string = "Enginn tími"
+					else:
+						noClass = False
+						string = dat["class"] + "-" + dat["group"] + "\n" + dat["teacher"]
+					
+					r = 0
+					
+					if starts == 8:
+						r = 0
+					elif starts == 10:
+						r = 1
+					elif starts == 13:
+						r = 2
+					elif starts == 15:
+						r = 3
+					
+					lfTitle = "lf_" + str(i) + "_" + str(r)
+					lTitle = "l_" + str(i) + "_" + str(r)
+					
+					Globals.app.startLabelFrame(lfTitle, r, i)
+					Globals.app.setLabelFrameTitle(lfTitle, dat["starts"] + " - " + dat["ends"])
+					
+					if noClass:
+						Globals.app.setLabelFrameBg(lfTitle, "green")
+					else:
+						Globals.app.setLabelFrameBg(lfTitle, "yellow")
+					
+					Globals.app.addLabel(lTitle, string, r, i)
+					Globals.app.stopLabelFrame()
+		
+		Globals.app.stopLabelFrame()
 	except Exception, ex:
 		print "ERROR!"
 		print ex
