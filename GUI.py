@@ -34,9 +34,6 @@ MIFAREReader = MFRC522.MFRC522()
 def start_loop(action):
 	# This loop keeps checking for chips. If one is near it will get the UID and authenticate
 	while Globals.continue_reading:
-		#global uid
-		#global uidStr
-
 		reset_labels()
 		
 		# Scan for cards    
@@ -81,7 +78,6 @@ def draw_timetable():
 		timetableFile = open("Data/Timetable.json", "r")
 		data = json.load(timetableFile)
 		
-		#print data["1"]["0"]["class"]
 		Globals.app.startLabelFrame("Timetable", 0, 0, 1, 3)
 		Globals.app.setLabelFrameBg("Timetable", "white")
 		Globals.app.setSticky("news")
@@ -127,47 +123,6 @@ def draw_timetable():
 					Globals.app.stopLabelFrame()
 		
 		Globals.app.stopLabelFrame()
-	except Exception, ex:
-		print "ERROR!"
-		print ex
-
-def attendance():
-	try:
-		#global start_times
-		#global end_times
-		#global user_ssn
-		
-		timetableFile = open("Data/Timetable.json", "r")
-		AttFile = open("Data/Attendance.json", "r")
-		ttData = json.load(timetableFile)
-		attData = json.load(AttFile)
-		cur_time = HelperFunctions.time_get()
-		cur_day = cur_time.split(' ')[0]
-		time_h_m = cur_time.split(' ')[1]
-		day_class = ""
-		class_name = ""
-		class_group = ""
-		in_week = ""
-		
-		if time_h_m >= Globals.start_times[0] and time_h_m <= Globals.end_times[0]:
-			day_class = "0"
-		elif time_h_m >= Globals.start_times[1] and time_h_m <= Globals.end_times[1]:
-			day_class = "1"
-		elif time_h_m >= Globals.start_times[2] and time_h_m <= Globals.end_times[2]:
-			day_class = "2"
-		elif time_h_m >= Globals.start_times[3] and time_h_m <= Globals.end_times[3]:
-			day_class = "3"
-		
-		class_name = ttData[cur_day][day_class]["class"]
-		class_group = ttData[cur_day][day_class]["group"]
-		in_week = ttData[cur_day][day_class]["in_week"]
-		
-		class_n_g = class_name + '-' + class_group
-		
-		attData[class_n_g][in_week][Globals.user_ssn.encode("utf-8")] = "m"
-		
-		AttFile = open("Data/Attendance.json", "w")
-		AttFile.write(HelperFunctions.fix_json(attData))
 	except Exception, ex:
 		print "ERROR!"
 		print ex

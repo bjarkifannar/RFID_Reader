@@ -1,13 +1,11 @@
 import Globals
+import HelperFunctions
+
 import io
 import codecs
+import json
 
 def get_user():
-	#global uid
-	#global uidStr
-	#global app
-	#global user_ssn
-	
 	print Globals.uidStr
 	
 	message = ''
@@ -21,16 +19,14 @@ def get_user():
 		Globals.user_ssn = data["ssn"]
 		message = message + data['name'] + '\n' + data['email'] + '\n' + data['ssn']
 		
-		attendance()
+		HelperFunctions.attendance()
 	except Exception, ex:
 		message = 'User not found'
+		print ex
 	
 	Globals.app.setLabel('msg', message)
 
 def add_user():
-	#global uid
-	#global uidStr
-	
 	n_ssn = raw_input("Enter your ssn (Kennitala): ")
 	n_name = raw_input("Enter your name: ")
 	n_email = raw_input("Enter your email: ")
