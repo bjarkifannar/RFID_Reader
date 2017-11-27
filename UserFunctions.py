@@ -8,7 +8,7 @@ def get_user():
 	#global app
 	#global user_ssn
 	
-	print uidStr
+	print Globals.uidStr
 	
 	message = ''
 	
@@ -16,16 +16,16 @@ def get_user():
 		userFile = open("Data/Users.json", "r")
 		userData = json.load(userFile)
 		
-		data = userData[uidStr]
+		data = userData[Globals.uidStr]
 		
-		user_ssn = data["ssn"]
+		Globals.user_ssn = data["ssn"]
 		message = message + data['name'] + '\n' + data['email'] + '\n' + data['ssn']
 		
 		attendance()
 	except Exception, ex:
 		message = 'User not found'
 	
-	app.setLabel('msg', message)
+	Globals.app.setLabel('msg', message)
 
 def add_user():
 	#global uid
@@ -40,7 +40,7 @@ def add_user():
 	userDataInitial = json.loads(jsonData)
 	
 	userDataInitial = userDataInitial.encode("utf-8")
-	userDataStr = HelperFunctions.fix_json(userDataInitial.rstrip()[:-1]) + ', "%s": {"ssn": "%s", "name": "%s", "email": "%s"}}' % (uidStr, n_ssn, n_name, n_email)
+	userDataStr = HelperFunctions.fix_json(userDataInitial.rstrip()[:-1]) + ', "%s": {"ssn": "%s", "name": "%s", "email": "%s"}}' % (Globals.uidStr, n_ssn, n_name, n_email)
 	
 	userFile = open("Data/Users.json", "w")
 	userFile.write(userDataStr)
