@@ -68,7 +68,7 @@ def init_app():
 	Globals.app.setSticky("news")
 	# Addes a empty label fram, sets the label fram with the width of 700.
 	Globals.app.addEmptyLabel('msg')
-	Globals.app.setLabelWidths('msg', 700)
+	Globals.app.setLabelHeights('msg', 2)
 	# Ends the label fram.
 	Globals.app.stopLabelFrame()
 	# Calls the start_loop function.

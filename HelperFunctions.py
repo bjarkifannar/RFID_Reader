@@ -92,13 +92,15 @@ def draw_timetable():
 					dat = data2[d2] # Get the data
 					starts = int(dat["starts"][:-3]) # Get the start hour
 					string = dat["starts"] + " - " + dat["ends"] + "\n" # The start and end time string
+					stringTeacher = ""
 					noClass = True # Is there a class at this time?
 					
 					if dat["class"] == "": # If there is no class
 						string = "Enginn tími" # Add a message to the row/column
 					else: # If there is a class
 						noClass = False # There is a class
-						string = dat["class"] + "-" + dat["group"] + "\n" + dat["teacher"] # Add the class info to the row/column
+						string = dat["class"] + "-" + dat["group"] # Add the class info to the row/column
+						stringTeacher = dat["teacher"]
 					
 					r = 0 # What row to put the data in
 					
@@ -122,10 +124,12 @@ def draw_timetable():
 					if noClass: # If there is no class
 						Globals.app.setLabelFrameBg(lfTitle, "green") # Set the background to green
 					else: # If there is a class
-						Globals.app.setLabelFrameBg(lfTitle, "yellow") # Set the background to yellow
+						Globals.app.setLabelFrameBg(lfTitle, "#BBBBBB") # Set the background to gray
 					
 					# Add the message to the label frame and close it
+					Globals.app.setSticky("news")
 					Globals.app.addLabel(lTitle, string, r, i)
+					Globals.app.addLabel(lTitle + "_2", stringTeacher, r + 1, i)
 					Globals.app.stopLabelFrame()
 		
 		# Close the timetable label frame
