@@ -11,4 +11,14 @@ Uses for this code is to show the user what time is in the class room and if the
 
 There are some future plans for the project, like make a more slime prototype that can be mounted on the wall and controlled remotely using the internet or closed LAN.
 
+#### Main Files
+
+GUI.py https://github.com/bjarkifannar/RFID_Reader/blob/master/GUI.py
+
+UserFunctions.py https://github.com/bjarkifannar/RFID_Reader/blob/master/UserFunctions.py
+
+HelperFunctions.py https://github.com/bjarkifannar/RFID_Reader/blob/master/HelperFunctions.py
+
+Data https://github.com/bjarkifannar/RFID_Reader/tree/master/Data
+
 The Wiki for the project: https://github.com/bjarkifannar/RFID_Reader/wiki
